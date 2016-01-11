@@ -29,7 +29,7 @@ public abstract class MovingObject : MonoBehaviour
 		_boxCollider.enabled = false;
 
 		// Check if a collision is detected
-		hit = Physics2D.Linecast (start, end);
+		hit = Physics2D.Linecast (start, end, blockingLayer);
 
 		// Re-enable collider
 		_boxCollider.enabled = true;
