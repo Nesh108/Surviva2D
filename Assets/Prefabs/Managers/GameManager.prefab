@@ -48,6 +48,9 @@ MonoBehaviour:
   foodCount:
     minimum: 1
     maximum: 5
+  weapondCount:
+    minimum: -3
+    maximum: 1
   exit: {fileID: 113524, guid: 91a9ffe64fcf550409f3b4144ab5d178, type: 2}
   enemyTiles:
   - {fileID: 176260, guid: 3da8399903fd4914489fc382a15a58a9, type: 2}
@@ -73,6 +76,8 @@ MonoBehaviour:
   - {fileID: 174988, guid: 65c81d195db80ac428c86f9fc6526d06, type: 2}
   - {fileID: 199028, guid: 614ba396c0271c54fba9b12420d2c586, type: 2}
   - {fileID: 195506, guid: 9a9d697c4ea448e4d9d5b00dac2d3794, type: 2}
+  weaponTiles:
+  - {fileID: 164984, guid: aaba415a074ba394db5bcfe018679c8b, type: 2}
   outerWallTiles:
   - {fileID: 161104, guid: 54015eb2c98c70e49af095f7001cf39e, type: 2}
   - {fileID: 109628, guid: b416ab2605858094b97e8858dc93e2b6, type: 2}
@@ -92,6 +97,7 @@ MonoBehaviour:
   turnDelay: .100000001
   boardScript: {fileID: 0}
   playerFoodPoints: 100
+  weaponDurability: 5
   playersTurn: 1
 --- !u!1001 &100100000
 Prefab:
@@ -101,12 +107,20 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: weaponTiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: columns
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rows
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

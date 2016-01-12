@@ -10,8 +10,11 @@ public class GameManager : MonoBehaviour
 	public static GameManager instance = null;
 	public BoardManager boardScript;
 	public int playerFoodPoints = 100;
+	public int weaponDurability = 0;
+
 	[HideInInspector]
 	public bool playersTurn = true;
+
 	private Text _levelText;
 	private GameObject _levelImage;
 	private int _curLevel = 1;

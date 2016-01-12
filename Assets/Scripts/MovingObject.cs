@@ -57,6 +57,7 @@ public abstract class MovingObject : MonoBehaviour
 			// Wait for a frame before repeating the loop
 			yield return null;
 		}
+
 	}
 
 	protected virtual void AttemptMove<T> (int xDir, int yDir)
