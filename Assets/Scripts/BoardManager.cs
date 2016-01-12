@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
@@ -20,7 +20,8 @@ public class BoardManager: MonoBehaviour
 
 		}
 
-		public override String ToString(){
+		public override String ToString ()
+		{
 			return "Min: " + minimum + " - Max: " + maximum;
 		}
 	}
@@ -30,10 +31,12 @@ public class BoardManager: MonoBehaviour
 	public int rows = 8;
 	public int increaseSizeEvery = 5;					// Increase size board every 5 levels
 	public int increaseAmount = 4;						// Amount of increase of the board size
+
 	public Count wallCount = new Count (5, 9);			// Minimum of 5 walls per lvl, max 9
-	public Count foodCount = new Count (1, 5);			// Same for food
+	public Count foodCount = new Count (1, 4);			// Same for food
 	public Count specialFoodCount = new Count (-15, 1);	// Same for special food
 	public Count weaponCount = new Count (-3, 1);		// Same for weapons
+	public Count bombCount = new Count (-6, 1);			// Same for bombs
 
 	public GameObject exit;
 	public GameObject[] enemyTiles;
@@ -42,6 +45,7 @@ public class BoardManager: MonoBehaviour
 	public GameObject[] specialFoodTiles;
 	public GameObject[] wallTiles;
 	public GameObject[] weaponTiles;
+	public GameObject[] bombTiles;
 	public GameObject[] outerWallTiles;
 	private Transform _boardHolder;
 	private List<Vector3> _gridPositions = new List<Vector3> ();		// Track all the possible positions on the board
@@ -81,15 +85,15 @@ public class BoardManager: MonoBehaviour
 		_curRows = rows + (((int)(level / increaseSizeEvery)) * increaseAmount);
 
 		// Re-Calculate the amount of walls and food per level
-		wallCount = new Count (5 + 5 * (int)(level / 10), 9 + 9 * (int)(level / 10));		// Multiply amount by 2 every 10 levels
-		foodCount = new Count (1 + 1 * (int)(level / 10), 5 + 5 * (int)(level / 10));		// Multiply amount by 2 every 10 levels
+		wallCount = new Count (5 + 5 * (int)(level / 10), 9 + 9 * (int)(level / 10));		// Increase amount by 9 every 10 levels
+		foodCount = new Count ((int)(level / 10), 5 + 2 * (int)(level / 10));				// Increase amount by 2 every 10 levels
 		weaponCount = new Count (-2, 1 + (int)(level / 10));								// Increase maxixum by 1 every 10 levels
 
 		Debug.Log ("- Current level:  " + level +
 			"\n- Board size is: " + _curColumns + "," + _curRows +
-			"\n- Current food is: " + foodCount.ToString() +
-			"\n- Current wall is: " + wallCount.ToString() +
-			"\n- Current weapon is: " + weaponCount.ToString());
+			"\n- Current food is: " + foodCount.ToString () +
+			"\n- Current wall is: " + wallCount.ToString () +
+			"\n- Current weapon is: " + weaponCount.ToString ());
 
 		// Creating the board edges around the playable area
 		for (int x = -1; x < _curColumns + 1; x++)
@@ -110,7 +114,7 @@ public class BoardManager: MonoBehaviour
 
 	}
 
-	// Location to spawn a new item (food, soda, enemy, wall)
+	// Location to spawn a new item (food, soda, enemy, wall, etc...)
 	Vector3 RandomPosition ()
 	{
 		// Randomly pick a location from the available ones in the grid
@@ -150,8 +154,11 @@ public class BoardManager: MonoBehaviour
 		else
 			LayoutObjectAtRandom (weaponTiles, 1, weaponCount.maximum);
 
-		// Progressively increase the amount of enemies in a level [log(curLvl)]
-		int enemyCount = (int)Mathf.Log (level, 2f);
+		// Place bomb
+		LayoutObjectAtRandom (bombTiles, bombCount.minimum, bombCount.maximum);
+
+		// Progressively increase the amount of enemies in a level [log(curLvl) + level / 3]
+		int enemyCount = (int)Mathf.Log (level, 2f) + (int)(level / 3);
 		LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
 
 		// Position exit at the upper-rightmost tile of the grid

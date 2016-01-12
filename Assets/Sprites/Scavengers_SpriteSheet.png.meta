@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: fbe1e7b94bb1a4a099d5bcb15a00141c
-timeCreated: 1452612669
+timeCreated: 1452624574
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -61,6 +61,7 @@ TextureImporter:
     21300108: Scavengers_SpriteSheet_54
     21300110: Scavengers_SpriteSheet_55
     21300112: Scavengers_SpriteSheet_56
+    21300114: Scavengers_SpriteSheet_57
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -671,6 +672,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Scavengers_SpriteSheet_57
+      rect:
+        serializedVersion: 2
+        x: 32
         y: 0
         width: 32
         height: 32

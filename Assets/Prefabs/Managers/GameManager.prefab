@@ -56,6 +56,9 @@ MonoBehaviour:
   weaponCount:
     minimum: -2
     maximum: 1
+  bombCount:
+    minimum: -6
+    maximum: 1
   exit: {fileID: 113524, guid: 91a9ffe64fcf550409f3b4144ab5d178, type: 2}
   enemyTiles:
   - {fileID: 176260, guid: 3da8399903fd4914489fc382a15a58a9, type: 2}
@@ -85,6 +88,8 @@ MonoBehaviour:
   - {fileID: 195506, guid: 9a9d697c4ea448e4d9d5b00dac2d3794, type: 2}
   weaponTiles:
   - {fileID: 164984, guid: aaba415a074ba394db5bcfe018679c8b, type: 2}
+  bombTiles:
+  - {fileID: 187888, guid: 51251cd21238caf44814378fcc50d8c4, type: 2}
   outerWallTiles:
   - {fileID: 161104, guid: 54015eb2c98c70e49af095f7001cf39e, type: 2}
   - {fileID: 109628, guid: b416ab2605858094b97e8858dc93e2b6, type: 2}
@@ -107,6 +112,8 @@ MonoBehaviour:
   boardScript: {fileID: 0}
   playerFoodPoints: 100
   weaponDurability: 5
+  playerScore: 0
+  playerBombs: 0
   playersTurn: 1
   checkCamera: 0
 --- !u!1001 &100100000
@@ -119,6 +126,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: foodTiles.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bombTiles.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: weaponTiles.Array.size
@@ -160,6 +171,14 @@ Prefab:
       propertyPath: specialFoodTiles.Array.data[0]
       value: 
       objectReference: {fileID: 140280, guid: bdc6b56126322de488d2df866d03da58, type: 2}
+    - target: {fileID: 0}
+      propertyPath: playerBombs
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bombCount.minimum
+      value: -6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 113244}

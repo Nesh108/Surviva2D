@@ -93,6 +93,7 @@ MonoBehaviour:
   blockingLayer:
     serializedVersion: 2
     m_Bits: 256
+  maxBombs: 3
   weaponDamage: 2
   wallDamage: 1
   pointsPerWeapon: 5
@@ -101,6 +102,10 @@ MonoBehaviour:
   scoreText: {fileID: 0}
   weaponText: {fileID: 0}
   foodText: {fileID: 0}
+  bombs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}
   moveSound2: {fileID: 8300000, guid: a826bc3d758db43d6ae9caf415b63d1d, type: 3}
   eatSound1: {fileID: 8300000, guid: 1cb61f83d60374c7389bb547431919e3, type: 3}
