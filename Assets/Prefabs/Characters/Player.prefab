@@ -99,6 +99,8 @@ MonoBehaviour:
   pointsPerWeapon: 5
   maxDurability: 10
   restartLevelDelay: 1
+  fireDuration: .5
+  smokeDuration: .300000012
   scoreText: {fileID: 0}
   weaponText: {fileID: 0}
   foodText: {fileID: 0}
@@ -106,6 +108,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  bombFire: {fileID: 144812, guid: 8937f3c8d325df34aa74e16c4ec42c01, type: 2}
+  bombSmoke: {fileID: 180596, guid: d2660c1dbe500c041a2ce0169ce58899, type: 2}
   moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}
   moveSound2: {fileID: 8300000, guid: a826bc3d758db43d6ae9caf415b63d1d, type: 3}
   eatSound1: {fileID: 8300000, guid: 1cb61f83d60374c7389bb547431919e3, type: 3}

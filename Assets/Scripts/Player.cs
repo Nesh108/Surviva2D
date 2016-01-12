@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class Player : MovingObject
@@ -10,10 +11,15 @@ public class Player : MovingObject
 	public int pointsPerWeapon = 5;
 	public int maxDurability = 10;
 	public float restartLevelDelay = 1f;
+	public float fireDuration = .5f;
+	public float smokeDuration = .3f;
+
 	public Text scoreText;
 	public Text weaponText;
 	public Text foodText;
 	public GameObject[] bombs;
+	public GameObject bombFire;
+	public GameObject bombSmoke;
 	public AudioClip moveSound1;
 	public AudioClip moveSound2;
 	public AudioClip eatSound1;
@@ -240,23 +246,17 @@ public class Player : MovingObject
 		this.GetComponent<BoxCollider2D> ().enabled = false;
 
 		// Check up - right - left - down first
-		RaycastHit2D hitU = Physics2D.Linecast (transform.position, new Vector3 (transform.position.x, transform.position.y + 1), blockingLayer);
-		RaycastHit2D hitL = Physics2D.Linecast (transform.position, new Vector3 (transform.position.x - 1, transform.position.y), blockingLayer);
-		RaycastHit2D hitR = Physics2D.Linecast (transform.position, new Vector3 (transform.position.x + 1, transform.position.y), blockingLayer);
-		RaycastHit2D hitD = Physics2D.Linecast (transform.position, new Vector3 (transform.position.x, transform.position.y - 1), blockingLayer);
-
-
-		checkHits (new RaycastHit2D[]{hitU, hitR, hitL, hitD});
+		checkHit (Physics2D.Linecast (transform.position, new Vector3 (transform.position.x, transform.position.y + 1), blockingLayer), new Vector3 (transform.position.x, transform.position.y + 1));
+		checkHit (Physics2D.Linecast (transform.position, new Vector3 (transform.position.x - 1, transform.position.y), blockingLayer), new Vector3 (transform.position.x - 1, transform.position.y));
+		checkHit (Physics2D.Linecast (transform.position, new Vector3 (transform.position.x + 1, transform.position.y), blockingLayer), new Vector3 (transform.position.x + 1, transform.position.y));
+		checkHit (Physics2D.Linecast (transform.position, new Vector3 (transform.position.x, transform.position.y - 1), blockingLayer), new Vector3 (transform.position.x, transform.position.y - 1));
 
 		// Check if a collision is detected in the diagonals
-		RaycastHit2D hitUL = Physics2D.Linecast (transform.position, new Vector3 (transform.position.x - 1, transform.position.y + 1), blockingLayer);
-		RaycastHit2D hitUR = Physics2D.Linecast (transform.position, new Vector3 (transform.position.x + 1, transform.position.y + 1), blockingLayer);
-
-		RaycastHit2D hitDL = Physics2D.Linecast (transform.position, new Vector3 (transform.position.x - 1, transform.position.y - 1), blockingLayer);
-		RaycastHit2D hitDR = Physics2D.Linecast (transform.position, new Vector3 (transform.position.x + 1, transform.position.y - 1), blockingLayer);
+		checkHit (Physics2D.Linecast (transform.position, new Vector3 (transform.position.x - 1, transform.position.y + 1), blockingLayer), new Vector3 (transform.position.x - 1, transform.position.y + 1));
+		checkHit (Physics2D.Linecast (transform.position, new Vector3 (transform.position.x + 1, transform.position.y + 1), blockingLayer), new Vector3 (transform.position.x + 1, transform.position.y + 1));
+		checkHit (Physics2D.Linecast (transform.position, new Vector3 (transform.position.x - 1, transform.position.y - 1), blockingLayer), new Vector3 (transform.position.x - 1, transform.position.y - 1));
+		checkHit (Physics2D.Linecast (transform.position, new Vector3 (transform.position.x + 1, transform.position.y - 1), blockingLayer), new Vector3 (transform.position.x + 1, transform.position.y - 1));
 		
-		checkHits (new RaycastHit2D[]{hitUL, hitUR, hitDL, hitDR});
-
 
 		// Re-enable collider
 		this.GetComponent<BoxCollider2D> ().enabled = true;
@@ -266,24 +266,33 @@ public class Player : MovingObject
 		
 	}
 
-	void checkHits (RaycastHit2D[] hits)
+	void checkHit (RaycastHit2D hit, Vector3 pos)
 	{
+		GameObject fireBomb = null;
+		GameObject smokeBomb = null;
 
-		foreach (RaycastHit2D hit in hits) {
-			// Something got hit
-			if (hit.transform != null) {
-				// if the hit object was a wall
-				if (hit.transform.GetComponent<Wall> () != null) {
-					//	Debug.Log ("Hit a wall at " + hit.transform.position.x + "," + hit.transform.position.y);
+		// Something got hit
+		if (hit.transform != null) {
+			// if the hit object was a wall
+			if (hit.transform.GetComponent<Wall> () != null) {
+				//	Debug.Log ("Hit a wall at " + hit.transform.position.x + "," + hit.transform.position.y);
+				fireBomb = Instantiate (bombFire, hit.transform.position, Quaternion.identity) as GameObject;
 
-					// Destroy wall
-					(hit.transform.GetComponent<Wall> () as Wall).DamageWall (MAX_DAMAGE);
-				} else if (hit.transform.GetComponent<Enemy> () != null) {
-					// Destroy enemy
-					(hit.transform.GetComponent<Enemy> () as Enemy).DamageEnemy (MAX_DAMAGE);
-				}
+				// Destroy wall
+				(hit.transform.GetComponent<Wall> () as Wall).DamageWall (MAX_DAMAGE);
+			} else if (hit.transform.GetComponent<Enemy> () != null) {
+				// Destroy enemy
+				fireBomb = Instantiate (bombFire, hit.transform.position, Quaternion.identity) as GameObject;
+				(hit.transform.GetComponent<Enemy> () as Enemy).DamageEnemy (MAX_DAMAGE);
 			}
-		}
+		} else
+			smokeBomb = Instantiate (bombSmoke, pos, Quaternion.identity) as GameObject;
+
+		// Clean Fire/smoke
+		if (fireBomb != null)
+			Destroy (fireBomb, fireDuration);
+		else if (smokeBomb != null)
+			Destroy (smokeBomb, smokeDuration);
 
 	}
 
