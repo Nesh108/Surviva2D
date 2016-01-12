@@ -20,9 +20,10 @@ public class Player : MovingObject
 	public AudioClip drinkSound1;
 	public AudioClip drinkSound2;
 	public AudioClip gameOverSound;
+
 	private Animator _animator;
 	private int _curFood;
-	public int _curWeaponDurability;
+	private int _curWeaponDurability;
 
 	protected override void Start ()
 	{

@@ -19,6 +19,10 @@ public class BoardManager: MonoBehaviour
 			maximum = max;
 
 		}
+
+		public String ToString(){
+			return "Min: " + minimum + " - Max: " + maximum;
+		}
 	}
 
 	// Size of the game board
@@ -28,7 +32,7 @@ public class BoardManager: MonoBehaviour
 	public int increaseAmount = 4;						// Amount of increase of the board size
 	public Count wallCount = new Count (5, 9);			// Minimum of 5 walls per lvl, max 9
 	public Count foodCount = new Count (1, 5);			// Same for food
-	public Count weapondCount = new Count (-2, 1);		// Same for weapons
+	public Count weaponCount = new Count (-2, 1);		// Same for weapons
 
 	public GameObject exit;
 	public GameObject[] enemyTiles;
@@ -42,6 +46,14 @@ public class BoardManager: MonoBehaviour
 
 	private int _curColumns;
 	private int _curRows;
+
+	public int CurColumns {
+		get { return _curColumns;}	
+	}
+
+	public int CurRows {
+		get { return _curRows;}	
+	}
 	
 	void InitializeList ()
 	{
@@ -66,7 +78,16 @@ public class BoardManager: MonoBehaviour
 		_curColumns = columns + (((int)(level / increaseSizeEvery)) * increaseAmount);
 		_curRows = rows + (((int)(level / increaseSizeEvery)) * increaseAmount);
 
-		Debug.Log ("Current level:  " + level + " - Board size is: " + _curColumns + "," + _curRows);
+		// Calculate the amount of walls and food per level
+		wallCount = new Count (5 + 5 * (int)(level / 10), 9 + 9 * (int)(level / 10));		// Multiply amount by 2 every 10 levels
+		foodCount = new Count (1 + 1 * (int)(level / 10), 5 + 5 * (int)(level / 10));		// Multiply amount by 2 every 10 levels
+		weaponCount = new Count (-2, 1 + (int)(level / 10));								// Increase maxixum by 1 every 10 levels
+
+		Debug.Log ("- Current level:  " + level +
+			"\n- Board size is: " + _curColumns + "," + _curRows +
+			"\n- Current food is: " + foodCount.ToString() +
+			"\n- Current wall is: " + wallCount.ToString() +
+			"\n- Current weapon is: " + weaponCount.ToString());
 
 		// Creating the board edges around the playable area
 		for (int x = -1; x < _curColumns + 1; x++)
@@ -120,11 +141,11 @@ public class BoardManager: MonoBehaviour
 		LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
 		LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
 
-		// Every 5 levels, always spawn a weapon
+		// Every 5 levels, always spawn at least 1 weapon
 		if (level % 5 != 0)
-			LayoutObjectAtRandom (weaponTiles, weapondCount.minimum, weapondCount.maximum);
+			LayoutObjectAtRandom (weaponTiles, weaponCount.minimum, weaponCount.maximum);
 		else
-			LayoutObjectAtRandom (weaponTiles, 1, weapondCount.maximum);
+			LayoutObjectAtRandom (weaponTiles, 1, weaponCount.maximum);
 
 		// Progressively increase the amount of enemies in a level [log(curLvl)]
 		int enemyCount = (int)Mathf.Log (level, 2f);

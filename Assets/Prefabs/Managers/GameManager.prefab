@@ -42,6 +42,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   columns: 8
   rows: 8
+  increaseSizeEvery: 5
+  increaseAmount: 2
   wallCount:
     minimum: 5
     maximum: 9
@@ -93,12 +95,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b23f39d1656e1e4a8af6c3c32782ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
   levelStartDelay: 2
   turnDelay: .100000001
   boardScript: {fileID: 0}
   playerFoodPoints: 100
   weaponDurability: 5
   playersTurn: 1
+  checkCamera: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -121,6 +125,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 2043782, guid: ebf8d08ea6c90124db41ed1bb4d5b3a9, type: 2}
+    - target: {fileID: 0}
+      propertyPath: increaseSizeEvery
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: increaseAmount
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
