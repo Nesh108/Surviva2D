@@ -90,6 +90,11 @@ public class GameManager : MonoBehaviour
 		_enemies.Add (script);
 	}
 
+	public void RemoveEnemyFromList (Enemy script)
+	{
+		_enemies.Remove (script);
+	}
+
 	IEnumerator MoveEnemies ()
 	{
 		// Enemies turn

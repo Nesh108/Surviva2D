@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Player : MovingObject
 {
-
+	public int weaponDamage = 2;
 	public int wallDamage = 1;
 	public int pointsPerFood = 10;
 	public int pointsPerSoda = 20;
@@ -65,17 +65,18 @@ public class Player : MovingObject
 		#endif //End of mobile platform dependendent compilation section started above with #elif
 
 		// If the player wants to move
-		if (horizontal != 0 || vertical != 0)
+		if (horizontal != 0 || vertical != 0){
 			AttemptMove<Wall> (horizontal, vertical);	// Assuming that the wall is the component the player will interact with
+			AttemptMove<Enemy> (horizontal, vertical);	// Assuming that the enemy is the other component the player will interact with
+
+			// Remove food for the action
+			_curFood--;
+			foodText.text = "Food: " + _curFood;
+		}
 	}
 
 	protected override void AttemptMove<T> (int xDir, int yDir)
 	{
-		// Remove food for the action
-		_curFood--;
-
-		foodText.text = "Food: " + _curFood;
-
 		base.AttemptMove<T> (xDir, yDir);
 
 		RaycastHit2D hit;
@@ -112,10 +113,18 @@ public class Player : MovingObject
 
 	protected override void OnCantMove<T> (T component)
 	{
-		Wall hitWall = component as Wall;
-		hitWall.DamageWall (wallDamage);
+		if(component is Wall){
+			Wall hitWall = component as Wall;
+			hitWall.DamageWall (wallDamage);
 
-		_animator.SetTrigger ("PlayerChop");
+			_animator.SetTrigger ("PlayerChop");
+		}
+		else if(component is Enemy){
+			Enemy hitEnemy = component as Enemy;
+			hitEnemy.DamageEnemy (weaponDamage);
+			
+			_animator.SetTrigger ("PlayerChop");
+		}
 	}
 
 	private void Restart ()

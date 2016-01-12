@@ -93,7 +93,10 @@ MonoBehaviour:
   blockingLayer:
     serializedVersion: 2
     m_Bits: 256
+  hp: 2
   playerDamage: 10
+  chopSound1: {fileID: 8300000, guid: 4c2332bc8245b474dad63074059bb755, type: 3}
+  chopSound2: {fileID: 8300000, guid: f6aaac83be9e0493493aace800b76619, type: 3}
   enemyAttack1: {fileID: 8300000, guid: 0db8cac2749584a009540aa5671ee80d, type: 3}
   enemyAttack2: {fileID: 8300000, guid: 114514a3b3697484ebaa08f7fbf842d3, type: 3}
 --- !u!212 &21267312
@@ -147,6 +150,18 @@ Prefab:
       propertyPath: enemyAttack2
       value: 
       objectReference: {fileID: 8300000, guid: 114514a3b3697484ebaa08f7fbf842d3, type: 3}
+    - target: {fileID: 0}
+      propertyPath: hp
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: chopSound1
+      value: 
+      objectReference: {fileID: 8300000, guid: 4c2332bc8245b474dad63074059bb755, type: 3}
+    - target: {fileID: 0}
+      propertyPath: chopSound2
+      value: 
+      objectReference: {fileID: 8300000, guid: f6aaac83be9e0493493aace800b76619, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 137384}

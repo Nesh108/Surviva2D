@@ -3,12 +3,14 @@ using System.Collections;
 
 public class Enemy : MovingObject
 {
-	
+	public int hp;
 	public int playerDamage;
 	private Animator _animator;
 	private Transform target;
 	private bool _skipMove;		// Make the enemies move every other turn
 	
+	public AudioClip chopSound1;
+	public AudioClip chopSound2;
 	public AudioClip enemyAttack1;
 	public AudioClip enemyAttack2;
 
@@ -60,5 +62,20 @@ public class Enemy : MovingObject
 		_animator.SetTrigger("EnemyAttack");
 
 		SoundManager.instance.RandomizeSfx (enemyAttack1, enemyAttack2);
+	}
+
+	public void DamageEnemy(int dmg) {
+		
+		SoundManager.instance.RandomizeSfx (chopSound1, chopSound2);
+	
+		// Remove the dealt damage 
+		hp -= dmg;
+		
+		// If the hp drop below 0, remove the enemy
+		if(hp <= 0)
+		{
+			GameManager.instance.RemoveEnemyFromList(this);
+			Destroy(gameObject);
+		}
 	}
 }
