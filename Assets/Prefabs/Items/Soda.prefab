@@ -10,9 +10,10 @@ GameObject:
   - 4: {fileID: 429790}
   - 212: {fileID: 21230508}
   - 61: {fileID: 6147650}
+  - 114: {fileID: 11413522}
   m_Layer: 0
   m_Name: Soda
-  m_TagString: Soda
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,6 +43,19 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: .100000001, y: .100000001}
+--- !u!114 &11413522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada7a9f47755e4e4e8251133a29cc1ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodPoints: 20
+  type: 1
 --- !u!212 &21230508
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -89,6 +103,23 @@ Prefab:
       propertyPath: m_Size.y
       value: .100000001
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: foodPoints
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Food
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300020, guid: fbe1e7b94bb1a4a099d5bcb15a00141c,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 197556}

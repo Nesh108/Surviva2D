@@ -95,11 +95,10 @@ MonoBehaviour:
     m_Bits: 256
   weaponDamage: 2
   wallDamage: 1
-  pointsPerFood: 10
-  pointsPerSoda: 20
   pointsPerWeapon: 5
   maxDurability: 10
   restartLevelDelay: 1
+  scoreText: {fileID: 0}
   weaponText: {fileID: 0}
   foodText: {fileID: 0}
   moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}

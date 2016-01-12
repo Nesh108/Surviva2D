@@ -20,7 +20,7 @@ public class BoardManager: MonoBehaviour
 
 		}
 
-		public String ToString(){
+		public override String ToString(){
 			return "Min: " + minimum + " - Max: " + maximum;
 		}
 	}
@@ -32,12 +32,14 @@ public class BoardManager: MonoBehaviour
 	public int increaseAmount = 4;						// Amount of increase of the board size
 	public Count wallCount = new Count (5, 9);			// Minimum of 5 walls per lvl, max 9
 	public Count foodCount = new Count (1, 5);			// Same for food
-	public Count weaponCount = new Count (-2, 1);		// Same for weapons
+	public Count specialFoodCount = new Count (-15, 1);	// Same for special food
+	public Count weaponCount = new Count (-3, 1);		// Same for weapons
 
 	public GameObject exit;
 	public GameObject[] enemyTiles;
 	public GameObject[] floorTiles;
 	public GameObject[] foodTiles;
+	public GameObject[] specialFoodTiles;
 	public GameObject[] wallTiles;
 	public GameObject[] weaponTiles;
 	public GameObject[] outerWallTiles;
@@ -78,7 +80,7 @@ public class BoardManager: MonoBehaviour
 		_curColumns = columns + (((int)(level / increaseSizeEvery)) * increaseAmount);
 		_curRows = rows + (((int)(level / increaseSizeEvery)) * increaseAmount);
 
-		// Calculate the amount of walls and food per level
+		// Re-Calculate the amount of walls and food per level
 		wallCount = new Count (5 + 5 * (int)(level / 10), 9 + 9 * (int)(level / 10));		// Multiply amount by 2 every 10 levels
 		foodCount = new Count (1 + 1 * (int)(level / 10), 5 + 5 * (int)(level / 10));		// Multiply amount by 2 every 10 levels
 		weaponCount = new Count (-2, 1 + (int)(level / 10));								// Increase maxixum by 1 every 10 levels
@@ -140,6 +142,7 @@ public class BoardManager: MonoBehaviour
 		InitializeList ();
 		LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
 		LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
+		LayoutObjectAtRandom (specialFoodTiles, specialFoodCount.minimum, specialFoodCount.maximum);
 
 		// Every 5 levels, always spawn at least 1 weapon
 		if (level % 5 != 0)

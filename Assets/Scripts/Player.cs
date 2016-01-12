@@ -6,11 +6,10 @@ public class Player : MovingObject
 {
 	public int weaponDamage = 2;
 	public int wallDamage = 1;
-	public int pointsPerFood = 10;
-	public int pointsPerSoda = 20;
 	public int pointsPerWeapon = 5;
 	public int maxDurability = 10;
 	public float restartLevelDelay = 1f;
+	public Text scoreText;
 	public Text weaponText;
 	public Text foodText;
 	public AudioClip moveSound1;
@@ -20,10 +19,11 @@ public class Player : MovingObject
 	public AudioClip drinkSound1;
 	public AudioClip drinkSound2;
 	public AudioClip gameOverSound;
-
 	private Animator _animator;
 	private int _curFood;
+	private int _curScore;
 	private int _curWeaponDurability;
+	private const int MAX_DAMAGE = 100;			// Used to insta-kill stuck enemies
 
 	protected override void Start ()
 	{
@@ -31,10 +31,12 @@ public class Player : MovingObject
 
 		// Used to store and retrieve food and weapons points between levels
 		_curFood = GameManager.instance.playerFoodPoints;
+		_curScore = GameManager.instance.playerScore;
 		_curWeaponDurability = GameManager.instance.weaponDurability;
 
 		foodText.text = "Food: " + _curFood;
 		weaponText.text = "Weapon: " + _curWeaponDurability;
+		scoreText.text = "Score: " + _curScore;
 
 		// Start the basic class (MovingObject)
 		base.Start ();
@@ -44,9 +46,10 @@ public class Player : MovingObject
 	private void OnDisable ()
 	{
 
-		// Save current food and weapons before at the end of the level
+		// Save current food, weapons and score before at the end of the level
 		GameManager.instance.playerFoodPoints = _curFood;
 		GameManager.instance.weaponDurability = _curWeaponDurability;
+		GameManager.instance.playerScore = _curScore;
 	}
 
 	void Update ()
@@ -104,18 +107,24 @@ public class Player : MovingObject
 		// If the player hits the exit tile, wait 1 second and start a new level
 		// Otherwise add the points to the food points and remove the item
 		if (obj.tag == "Exit") {
+
 			Invoke ("Restart", restartLevelDelay);
 			enabled = false;
+
 		} else if (obj.tag == "Food") {
-			_curFood += pointsPerFood;
-			foodText.text = "+" + pointsPerFood + " Food: " + _curFood;
-			SoundManager.instance.RandomizeSfx (eatSound1, eatSound2);
+
+			_curFood += obj.GetComponent<Food> ().foodPoints;
+			foodText.text = "+" + obj.GetComponent<Food> ().foodPoints + " Food: " + _curFood;
+
+			// If the food is an edible, make eating sounds, else drinking sounds
+			if (obj.GetComponent<Food> ().type == FoodType.Edible)
+				SoundManager.instance.RandomizeSfx (eatSound1, eatSound2);
+			else
+				SoundManager.instance.RandomizeSfx (drinkSound1, drinkSound2);
+
 			obj.gameObject.SetActive (false);
-		} else if (obj.tag == "Soda") {
-			_curFood += pointsPerSoda;
-			foodText.text = "+" + pointsPerSoda + " Food: " + _curFood;
-			SoundManager.instance.RandomizeSfx (drinkSound1, drinkSound2);
-			obj.gameObject.SetActive (false);
+
+
 		} else if (obj.tag == "Weapon") {
 			_curWeaponDurability += pointsPerWeapon;
 
@@ -140,7 +149,10 @@ public class Player : MovingObject
 
 			if (_curWeaponDurability > 0) {
 
-				hitEnemy.DamageEnemy (weaponDamage);
+				if (hitEnemy.DamageEnemy (weaponDamage)) {
+					_curScore += hitEnemy.score;
+					scoreText.text = "Score: " + _curScore;
+				}
 			
 				_animator.SetTrigger ("PlayerChop");
 
@@ -148,12 +160,16 @@ public class Player : MovingObject
 				_curWeaponDurability--;
 				weaponText.text = "Weapon: " + _curWeaponDurability;
 
+
 			} else if (hitEnemy.transform.position == transform.position) {	// Enemy is right over the player [kind of a bug]
 				// Remove food from the player according to current enemy HP
 				int lostFood = hitEnemy.hp * 5;
 
 				// Allow the user to destroy the enemy for food
-				hitEnemy.DamageEnemy (100);
+				if (hitEnemy.DamageEnemy (MAX_DAMAGE)) {
+					_curScore += hitEnemy.score;
+					scoreText.text = "Score: " + _curScore;
+				}
 				
 				_animator.SetTrigger ("PlayerChop");
 
@@ -186,6 +202,7 @@ public class Player : MovingObject
 		if (_curFood <= 0) {
 			SoundManager.instance.PlaySingle (gameOverSound);
 			SoundManager.instance.musicSource.Stop ();
+			GameManager.instance.playerScore = _curScore;
 			GameManager.instance.GameOver ();
 		}
 	}

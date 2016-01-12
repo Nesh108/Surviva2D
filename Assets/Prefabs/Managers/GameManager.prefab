@@ -50,8 +50,11 @@ MonoBehaviour:
   foodCount:
     minimum: 1
     maximum: 5
-  weapondCount:
-    minimum: -3
+  specialFoodCount:
+    minimum: -10
+    maximum: 1
+  weaponCount:
+    minimum: -2
     maximum: 1
   exit: {fileID: 113524, guid: 91a9ffe64fcf550409f3b4144ab5d178, type: 2}
   enemyTiles:
@@ -69,6 +72,8 @@ MonoBehaviour:
   foodTiles:
   - {fileID: 197556, guid: 7bb488741c3d21f4d9cd355e4db10313, type: 2}
   - {fileID: 171672, guid: f8502144381434d40a406e40547f7ae9, type: 2}
+  specialFoodTiles:
+  - {fileID: 140280, guid: bdc6b56126322de488d2df866d03da58, type: 2}
   wallTiles:
   - {fileID: 116536, guid: 2e244322b98087e40947655540c3c2c4, type: 2}
   - {fileID: 161524, guid: 45c1185a51f345a46a2663e06b9930ad, type: 2}
@@ -96,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
+  followPlayerEvery: 2
   levelStartDelay: 2
   turnDelay: .100000001
   boardScript: {fileID: 0}
@@ -111,7 +117,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: foodTiles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: weaponTiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFoodTiles.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
@@ -138,6 +152,14 @@ Prefab:
       propertyPath: increaseAmount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: foodTiles.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFoodTiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 140280, guid: bdc6b56126322de488d2df866d03da58, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 113244}

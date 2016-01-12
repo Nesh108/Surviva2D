@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 	public BoardManager boardScript;
 	public int playerFoodPoints = 100;
 	public int weaponDurability = 0;
+	public int playerScore = 0;
 	
 	[HideInInspector]
 	public bool playersTurn = true;
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
 
 	private Text _levelText;
 	private GameObject _levelImage;
-	private int _curLevel = 9;
+	private int _curLevel = 1;
 	private List<Enemy> _enemies;
 	private bool _enemiesMoving;
 	private bool _doingSetup;
@@ -76,8 +77,8 @@ public class GameManager : MonoBehaviour
 
 	public void GameOver ()
 	{
-		// Show Game Over screen
-		_levelText.text = "After " + _curLevel + " days, you starved. \n\nDaymn son...";
+		// Show Game Over screen and final score
+		_levelText.text = "After " + _curLevel + " days, you starved. \n\nDaymn son...\n\n\n\nFinal Score: " + (playerScore + 100 * _curLevel);
 		_levelImage.SetActive(true);
 
 		enabled = false;

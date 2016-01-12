@@ -5,6 +5,8 @@ public class Enemy : MovingObject
 {
 	public int hp;
 	public int playerDamage;
+	public int score;			// What is the score given if killed
+
 	private Animator _animator;
 	private Transform target;
 	private bool _skipMove;		// Make the enemies move every other turn
@@ -64,7 +66,7 @@ public class Enemy : MovingObject
 		SoundManager.instance.RandomizeSfx (enemyAttack1, enemyAttack2);
 	}
 
-	public void DamageEnemy(int dmg) {
+	public bool DamageEnemy(int dmg) {
 		
 		SoundManager.instance.RandomizeSfx (chopSound1, chopSound2);
 	
@@ -76,6 +78,12 @@ public class Enemy : MovingObject
 		{
 			GameManager.instance.RemoveEnemyFromList(this);
 			Destroy(gameObject);
+
+			// Unit is dead
+			return true;
 		}
+
+		// Not dead
+		return false;
 	}
 }
