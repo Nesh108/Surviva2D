@@ -15,7 +15,6 @@ Help Jab surviving in his harsh reality. Searching for food and, perhaps, some a
 - Apples:         +10 Food
 - Soda:           +20 Food
 - Golden Apples:  +50 Food (Rare!)
-
 - Sword:          +5 Weapon Durability (max 10)
 - Bomb:           +1 Bomb (max 3)
 
