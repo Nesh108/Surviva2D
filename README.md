@@ -8,7 +8,7 @@ Help Jab surviving in his harsh reality. Searching for food and, perhaps, some a
 
 - Windows ([32bit](https://github.com/Nesh108/Surviva2D/blob/master/Builds/Surviva2D_32bit.zip), [64bit](https://github.com/Nesh108/Surviva2D/blob/master/Builds/Surviva2D_64bit.zip))
 - Linux ([32bit, 64bit](https://github.com/Nesh108/Surviva2D/blob/master/Builds/Surviva2D_Linux.zip))
-- Android  ([Lollipop](https://github.com/Nesh108/Surviva2D/blob/master/Builds/Surviva2D.apk))
+- Android  ([5.0](https://github.com/Nesh108/Surviva2D/blob/master/Builds/Surviva2D.apk))
 
 ## Items
 
