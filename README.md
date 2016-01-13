@@ -2,7 +2,7 @@
 
 2D Survival videogame based on the tutorial "2D Roguelike tutorial" from Unity3d (https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/project-introduction?playlist=17150)
 
-Help Jab surviving in his harsh reality. Searching for food and, perhaps, some aid to fight the evil inhabitants who want to take your precious food.
+Help Jab surviving in his harsh reality. Searching for food and, perhaps, finding some aid to fight the evil inhabitants who want to take your precious food.
 
 ## Builds
 
