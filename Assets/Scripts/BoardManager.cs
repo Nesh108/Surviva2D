@@ -111,7 +111,6 @@ public class BoardManager: MonoBehaviour
 				GameObject tileInstance = Instantiate (curTile, new Vector3 (x, y, 0f), Quaternion.identity) as GameObject;
 				tileInstance.transform.SetParent (_boardHolder);
 			}
-
 	}
 
 	// Location to spawn a new item (food, soda, enemy, wall, etc...)

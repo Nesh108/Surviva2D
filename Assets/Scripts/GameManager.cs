@@ -79,7 +79,12 @@ public class GameManager : MonoBehaviour
 	public void GameOver ()
 	{
 		// Show Game Over screen and final score
-		_levelText.text = "After " + _curLevel + " days, you starved. \n\nDaymn son...\n\n\n\nFinal Score: " + (playerScore + 100 * _curLevel);
+		#if UNITY_STANDALONE || UNITY_WEBPLAYER
+			_levelText.text = "After " + _curLevel + " days, you starved. \n\nDaymn son...\n\n\n\nFinal Score: " + (playerScore + 100 * (_curLevel-1)) + "\n\n\nPress R to restart.";
+		#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+		_levelText.text = "After " + _curLevel + " days, you starved. \n\nDaymn son...\n\n\n\nFinal Score: " + (playerScore + 100 * (_curLevel-1)) + "\n\n\nTap to restart.";
+		#endif
+
 		_levelImage.SetActive(true);
 
 		enabled = false;
@@ -157,5 +162,16 @@ public class GameManager : MonoBehaviour
 		}
 
 		checkCamera = false;
+	}
+
+	public void RestartGame(){
+		playerFoodPoints = 100;
+		weaponDurability = 5;
+		playerScore = 0;
+		playerBombs = 0;
+		_curLevel = 0;
+		playersTurn = true;
+		enabled = true;
+		Application.LoadLevel (Application.loadedLevel);
 	}
 }

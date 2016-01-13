@@ -27,12 +27,16 @@ public class Player : MovingObject
 	public AudioClip drinkSound1;
 	public AudioClip drinkSound2;
 	public AudioClip gameOverSound;
+
 	private Animator _animator;
 	private int _curFood;
 	private int _curScore;
 	private int _curWeaponDurability;
 	private int _curBombs;
 	private const int MAX_DAMAGE = 100;			// Used to insta-kill stuck enemies
+	private Vector2 touchOrigin = -Vector2.one;
+
+	private bool restart = false;
 
 	protected override void Start ()
 	{
@@ -58,16 +62,29 @@ public class Player : MovingObject
 
 	private void OnDisable ()
 	{
-
-		// Save current food, weapons and score before at the end of the level
-		GameManager.instance.playerFoodPoints = _curFood;
-		GameManager.instance.weaponDurability = _curWeaponDurability;
-		GameManager.instance.playerScore = _curScore;
-		GameManager.instance.playerBombs = _curBombs;
+		if(!restart){
+			// Save current food, weapons and score before at the end of the level
+			GameManager.instance.playerFoodPoints = _curFood;
+			GameManager.instance.weaponDurability = _curWeaponDurability;
+			GameManager.instance.playerScore = _curScore;
+			GameManager.instance.playerBombs = _curBombs;
+		}
+		else
+			restart = false;
 	}
 
 	void Update ()
 	{
+		if (restart){
+			#if UNITY_STANDALONE || UNITY_WEBPLAYER
+			if (Input.GetKeyDown (KeyCode.R))
+				GameManager.instance.RestartGame();
+			#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+			if(Input.touchCount > 0)
+				GameManager.instance.RestartGame();
+			#endif
+		}
+
 		if (!GameManager.instance.playersTurn) 
 			return;
 
@@ -91,6 +108,33 @@ public class Player : MovingObject
 
 		//Check if we are running on iOS, Android, Windows Phone 8 or Unity iPhone
 		#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+
+		if(Input.touchCount > 0){
+			Touch myTouch = Input.touches[0];
+		
+			if(myTouch.tapCount == 2)
+				if(_curBombs > 0)
+					ExplodeBomb();
+
+			if(myTouch.phase == TouchPhase.Began)
+				touchOrigin = myTouch.position;
+			else if(myTouch.phase == TouchPhase.Ended && touchOrigin.x >= 0)
+			{
+				Vector2 touchEnd = myTouch.position;
+				// get direction x and y
+				float x = touchEnd.x - touchOrigin.x;
+				float y = touchEnd.y - touchOrigin.y;
+
+				// Reset touch origin
+				touchOrigin.x = -1;
+
+				if(Mathf.Abs(x) > Mathf.Abs(y))
+					horizontal = x > 0 ? 1 : -1;
+				else
+					vertical = y > 0 ? 1 : -1;
+			}
+		
+		}
 
 		#endif //End of mobile platform dependendent compilation section started above with #elif
 
@@ -231,6 +275,7 @@ public class Player : MovingObject
 			SoundManager.instance.musicSource.Stop ();
 			GameManager.instance.playerScore = _curScore;
 			GameManager.instance.GameOver ();
+			restart = true;
 		}
 	}
 
